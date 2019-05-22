@@ -13,7 +13,8 @@ class Seasons extends PureComponent {
 
             items.push(
                 <Button onPress={() => this.props.handleClick(i)}
-                    rounded small key={`BSeason-${i}`}>
+                    rounded small key={`BSeason-${i}`}
+                    style={style.button} >
                     <Text key={`season-${i}`}>
                         {i}
                     </Text>
