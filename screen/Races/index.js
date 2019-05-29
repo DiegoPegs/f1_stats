@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaView } from 'react-navigation'
-import { Container, Header, Content, List, ListItem, Text } from 'native-base';
+import {List, ListItem, Text } from 'native-base';
 
 
 export default class Races extends React.Component {
@@ -23,7 +23,9 @@ export default class Races extends React.Component {
     fetch(`http://ergast.com/api/f1/${season}.json`)
       .then((response) => response.json())
       .then((data) => {
+        console.log('data finish')
         let races = data.MRData.RaceTable.Races.map(it => `${it.raceName}`);
+        console.log(`races count: ${races.length}`)
         this.setState({
           races,
           loading: false
@@ -35,13 +37,13 @@ export default class Races extends React.Component {
   static navigationOptions = () => {
     return {
       title: 'Races'
-    }
+    } 
   }
 
   renderList(race, i) {
     return (
       <ListItem key={`raceList-${i}`}>
-        <Text key={`textList-${i}`}>race</Text>
+        <Text key={`textList-${i}`}>{race}</Text>
       </ListItem>
 
     )
@@ -49,25 +51,19 @@ export default class Races extends React.Component {
 
   renderRaces() {
     const { races } = this.state
-    let items = []
 
     return (
       <SafeAreaView>
-        <Container>
-          <Header />
-          <Content>
-            <List>
-              {races.map(this.renderList)}
-            </List>
-          </Content>
-        </Container>
+        <List>
+          {races.map(this.renderList)}
+        </List>
       </SafeAreaView>)
 
-    return items
 
   }
 
   render() {
+    console.log(`render`)
     const { loading } = this.state;
     return loading ?
       <Text>Carregando...</Text> :

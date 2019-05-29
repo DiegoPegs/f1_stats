@@ -18,11 +18,8 @@ class Seasons extends PureComponent {
                     <Text key={`season-${i}`}>
                         {i}
                     </Text>
-
                 </Button>
-
             )
-
         }
         return items
     }

@@ -6,6 +6,7 @@ import {
 
 import HomeScreen from './screen/Home'
 import RaceScreen from './screen/Races'
+import OptinosScreen from './screen/Options'
 
 const AppNavigator = createStackNavigator(
   {
@@ -14,6 +15,9 @@ const AppNavigator = createStackNavigator(
     },
     Races: {
       screen: RaceScreen
+    },
+    Options: {
+      screen: OptinosScreen
     }
   },
   {

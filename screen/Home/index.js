@@ -17,7 +17,7 @@ export default class Home extends React.Component {
   }
 
   getData(season) {
-    this.props.navigation.navigate('Races', {season})
+    this.props.navigation.navigate('Options', {season})
   }
 
   render() {
