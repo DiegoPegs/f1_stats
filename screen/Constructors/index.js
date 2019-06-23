@@ -1,20 +1,20 @@
 import React from 'react';
 import { SafeAreaView } from 'react-navigation';
-import { Text, Card, CardItem } from 'native-base';
+import { Card, CardItem, Text } from 'native-base';
 
 import * as request from '../../resource/request';
 
 import { ScrollView } from 'react-native-gesture-handler';
-import Pilot from '../../components/Pilots';
+import Constructor from '../../components/Constructor';
 
 import style from './style'
 
 
-export default class Pilots extends React.Component {
+export default class Constructors extends React.Component {
 
     state = {
         season: 0,
-        pilots: [],
+        constructors: [],
         loading: true
 
     }
@@ -25,7 +25,7 @@ export default class Pilots extends React.Component {
 
     static navigationOptions = () => {
         return {
-            title: 'Pilotos'
+            title: 'Construtores'
         }
     }
 
@@ -40,17 +40,17 @@ export default class Pilots extends React.Component {
     }
 
     getData(season) {
-        request.get(`${season}/drivers.json`)
+        request.get(`${season}/constructors.json`)
             .then((data) => {
 
-                let pilots = data.MRData.DriverTable.Drivers.map(it => {
+                let constructors = data.MRData.ConstructorTable.Constructors.map(it => {
                     return {
-                        name: `${it.givenName} ${it.familyName}`,
-                        id: it.driverId
+                        name: it.name,
+                        id: it.constructorId
                     }
                 });
                 this.setState({
-                    pilots,
+                    constructors,
                     loading: false
                 })
             })
@@ -59,12 +59,12 @@ export default class Pilots extends React.Component {
 
 
 
-    detail(pilot) {
-        this.props.navigation.navigate('Details', { pilot, page: 'Pilot', season: this.state.season })
+    detail(constructor) {
+        this.props.navigation.navigate('Details', { constructor, page: 'Constructor', season: this.state.season })
     }
 
-    renderPilots() {
-        return this.state.pilots.map(it => <Pilot key={it.id} pilot={it} handleClick={this.detail}></Pilot>)
+    renderContructors() {
+        return this.state.constructors.map(it => <Constructor key={it.id} constructor={it} handleClick={this.detail}></Constructor>)
     }
 
     render() {
@@ -79,14 +79,20 @@ export default class Pilots extends React.Component {
                             <Text>Lista de Pilotos</Text>
                         </CardItem>
 
-                        {this.renderPilots()}
+                        {this.renderContructors()}
 
                         <CardItem footer bordered>
                             <Text>F1 Pilots</Text>
                         </CardItem>
                     </Card>
+
+
                 </ScrollView>
+
             </SafeAreaView>
+
+
+
     }
 }
 

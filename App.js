@@ -7,6 +7,9 @@ import {
 import HomeScreen from './screen/Home'
 import RaceScreen from './screen/Races'
 import OptinosScreen from './screen/Options'
+import DetailScreen from './screen/Details'
+import PilotScreen from './screen/Pilots'
+import ConstructorScreen from './screen/Constructors'
 
 const AppNavigator = createStackNavigator(
   {
@@ -16,8 +19,17 @@ const AppNavigator = createStackNavigator(
     Races: {
       screen: RaceScreen
     },
+    Pilots: {
+      screen: PilotScreen
+    },
+    Constructors: {
+      screen: ConstructorScreen
+    },
     Options: {
       screen: OptinosScreen
+    },
+    Details: {
+      screen: DetailScreen
     }
   },
   {

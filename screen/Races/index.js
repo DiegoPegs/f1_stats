@@ -1,75 +1,94 @@
 import React from 'react';
-import { SafeAreaView } from 'react-navigation'
-import {List, ListItem, Text } from 'native-base';
+import { SafeAreaView } from 'react-navigation';
+import { Text, Card, CardItem } from 'native-base';
+
+import * as request from '../../resource/request';
+
+import Race from '../../components/Races';
+import { ScrollView } from 'react-native-gesture-handler';
+
+import style from './style'
 
 
 export default class Races extends React.Component {
 
   state = {
+    season: 0,
     races: [],
     loading: true
 
   }
-
-  componentDidMount() {
-    console.log('didmount')
-    const season = this.props.navigation.getParam('season')
-    this.getData(season)
-
-  }
-
-  getData(season) {
-    console.log('getdata')
-    fetch(`http://ergast.com/api/f1/${season}.json`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('data finish')
-        let races = data.MRData.RaceTable.Races.map(it => `${it.raceName}`);
-        console.log(`races count: ${races.length}`)
-        this.setState({
-          races,
-          loading: false
-        })
-      })
-    console.log(season)
+  constructor(props) {
+    super(props);
+    this.detail = this.detail.bind(this)
   }
 
   static navigationOptions = () => {
     return {
       title: 'Races'
-    } 
+    }
   }
 
-  renderList(race, i) {
-    return (
-      <ListItem key={`raceList-${i}`}>
-        <Text key={`textList-${i}`}>{race}</Text>
-      </ListItem>
+  componentDidMount() {
+    const season = this.props.navigation.getParam('season')
 
-    )
+    this.setState({
+      season: season
+    })
+    this.getData(season)
+
+  }
+
+  getData(season) {
+    request.get(`${season}.json`)
+      .then((data) => {
+
+        // let races = data.MRData.RaceTable.Races.map(it => `${it.raceName}`);
+        let races = data.MRData.RaceTable.Races.map(it => {
+          return {
+            name: it.raceName,
+            round: it.round
+          }
+        });
+        this.setState({
+          races,
+          loading: false
+        })
+      })
+  }
+
+  detail(round) {
+
+    this.props.navigation.navigate('Details', { round, page: 'Race', season: this.state.season })
   }
 
   renderRaces() {
     const { races } = this.state
 
-    return (
-      <SafeAreaView>
-        <List>
-          {races.map(this.renderList)}
-        </List>
-      </SafeAreaView>)
-
-
+    return races.map(it => <Race key={it.round} race={it} handleClick={this.detail}></Race>)
   }
 
   render() {
-    console.log(`render`)
+
     const { loading } = this.state;
     return loading ?
       <Text>Carregando...</Text> :
-      this.renderRaces();
+      <SafeAreaView style={style.content}>
+        <ScrollView>
+          <Card>
+            <CardItem header bordered>
+              <Text>Lista de Circuitos</Text>
+            </CardItem>
 
+            {this.renderRaces()}
 
+            <CardItem footer bordered>
+              <Text>F1 races</Text>
+            </CardItem>
+
+          </Card>
+        </ScrollView>
+      </SafeAreaView>
   }
 }
 

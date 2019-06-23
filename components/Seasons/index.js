@@ -9,11 +9,11 @@ class Seasons extends PureComponent {
     renderSeasons() {
         let items = []
 
-        for (let i = 2000; i < 2021; i++) {
+        for (let i = 2000; i < 2020; i++) {
 
             items.push(
                 <Button onPress={() => this.props.handleClick(i)}
-                    rounded small key={`BSeason-${i}`}
+                    rounded key={`BSeason-${i}`}
                     style={style.button} >
                     <Text key={`season-${i}`}>
                         {i}

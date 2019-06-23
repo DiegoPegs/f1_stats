@@ -1,44 +1,44 @@
 import React from 'react';
 import { SafeAreaView } from 'react-navigation'
-import { Button, Text } from 'native-base';
-import style from './style'
+import Seasons from '../../components/Seasons'
 
 
 export default class Options extends React.Component {
 
     state = {
-        season: 0
+        page: ""
     }
 
+    constructor(props) {
+        super(props);
+        this.getData = this.getData.bind(this)
+    }
 
+    static navigationOptions = () => {
+        return {
+            title: 'Temporadas'
+        }
+    }
 
+    
     componentDidMount() {
         this.setState({
-            season: this.props.navigation.getParam('season')
+            page: this.props.navigation.getParam('page')
         })
+        
     }
 
-    getDetail(season, tipo) {
-        console.log(season, tipo)
-        this.props.navigation.navigate('Detail', {season})
+    getData(season) {
+        const page = this.state.page
+        console.log(`page: ${page}`)
+        this.props.navigation.navigate(page, { season })
     }
 
     render() {
-        const { season } = this.state
+        
         return (
             <SafeAreaView>
-                <Button
-                    style={style.button}
-                    block
-                    onPress={() => this.getDetail(season, 'corrida')}>
-                    <Text>Corridas</Text>
-                </Button>
-                <Button
-                    style={style.button}
-                    block
-                    onPress={() => this.getDetail(season, 'piloto')}>
-                    <Text>Pilotos</Text>
-                </Button>
+                <Seasons handleClick={this.getData}></Seasons>
             </SafeAreaView>
         )
 

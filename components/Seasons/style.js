@@ -4,9 +4,10 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        margin: 12
     },
     button:{
-        margin: 15
+        margin: 10
     }
 })
